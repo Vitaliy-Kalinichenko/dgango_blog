@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import View
 
 from .models import *
+from .utils import ObjectDetailMixin
 
 
 def posts_list(request):
@@ -9,9 +11,9 @@ def posts_list(request):
                   context={'posts': posts})  # ключи словаря контекст, будут использованы в шаблоне
 
 
-def posts_detail(request, slug):  # slug - то что приходит из urlpatterns
-    post = Post.objects.get(slug__iexact=slug)
-    return render(request, 'blog/posts_detail.html', context={'post': post})
+class PostDetail(ObjectDetailMixin, View):
+    model = Post
+    template = 'blog/posts_detail.html'
 
 
 def tags_list(request):
@@ -19,6 +21,7 @@ def tags_list(request):
     return render(request, 'blog/tags_list.html', context={'tags': tags})
 
 
-def tags_detail(request, slug):
-    tag = Tag.objects.get(slug__iexact=slug)
-    return render(request, 'blog/tags_detail.html', context={'tag': tag})
+class TagDetail(ObjectDetailMixin, View):
+    model = Tag
+    template = 'blog/tags_detail.html'
+
