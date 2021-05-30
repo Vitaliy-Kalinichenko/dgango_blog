@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.generic import View
 
 from .models import *
-from .utils import ObjectDetailMixin
+from .utils import *
+from .forms import *
 
 
 def posts_list(request):
@@ -13,7 +14,12 @@ def posts_list(request):
 
 class PostDetail(ObjectDetailMixin, View):
     model = Post
-    template = 'blog/posts_detail.html'
+    template = 'blog/post_detail.html'
+
+
+class PostCreate(ObjectsCreateMixin, View):
+    form_model = PostForm
+    template = 'blog/post_create_form.html'
 
 
 def tags_list(request):
@@ -23,5 +29,9 @@ def tags_list(request):
 
 class TagDetail(ObjectDetailMixin, View):
     model = Tag
-    template = 'blog/tags_detail.html'
+    template = 'blog/tag_detail.html'
 
+
+class TagCreate(ObjectsCreateMixin, View):
+    form_model = TagForm
+    template = 'blog/tag_create.html'
