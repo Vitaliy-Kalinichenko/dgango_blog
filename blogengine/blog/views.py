@@ -22,6 +22,12 @@ class PostCreate(ObjectsCreateMixin, View):
     template = 'blog/post_create_form.html'
 
 
+class PostUpdate(ObjectUpdateMixin, View):
+    model = Post
+    form_model = PostForm
+    template = 'blog/post_update_form.html'
+
+
 def tags_list(request):
     tags = Tag.objects.all()
     return render(request, 'blog/tags_list.html', context={'tags': tags})
@@ -35,3 +41,9 @@ class TagDetail(ObjectDetailMixin, View):
 class TagCreate(ObjectsCreateMixin, View):
     form_model = TagForm
     template = 'blog/tag_create.html'
+
+
+class TagUpdate(ObjectUpdateMixin, View):
+    model = Tag
+    form_model = TagForm
+    template = 'blog/tag_update_form.html'
